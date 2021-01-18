@@ -55,7 +55,7 @@ public class Formattor {
             System.out.print("-");
         }
         
-        for (int i = getNumberLength(subtract); i < getNumberLength(result.getDivident()) - 1; i++) {
+        for (int i = getNumberLength(subtract); i < getNumberLength(result.getDivident()); i++) {
             System.out.print(" ");
         }
         

@@ -7,35 +7,33 @@ public class Divider {
     public DivisionResult divide(int divident, int divisor) {
         validate(divisor);
         
-        List<DivisionStep> divisionSteps = new ArrayList<DivisionStep>();
+        DivisionResult result = new DivisionResult(divident, divisor);
+        List<DivisionStep> divisionSteps = new ArrayList<>();
         int stepCount = 0;
         int numOfLeadingZeros = 0;
-        boolean isResultNegative = false;
 
         if (divident < 0) {
             divident = -divident;
-            isResultNegative = true;
         }
         
         if (divisor < 0) {
             divisor = -divisor;
-            isResultNegative = true;
         }
         
         int subDivident = pickDividentFromNumber(divident, divisor);
         int dividentLength = getNumberLength(divident);
     
-        
-        divisionSteps.add(populateDivisionStep(subDivident, divisor, numOfLeadingZeros));
+        divisionSteps.add(new DivisionStep(subDivident, divisor, numOfLeadingZeros));
         
         int i = getNumberLength(subDivident);
         
         while (i < dividentLength) {
+            stepCount++;
+
             numOfLeadingZeros = getNumOfLeadingZeros(i, divident);
             
-            stepCount++;
-            
             if (numOfLeadingZeros > 0) {
+                
                 String dividentAsString = Integer.toString(divident).substring(i);
                 
                 if (divisionSteps.get(stepCount - 1).getRemainder() != 0) {
@@ -46,6 +44,10 @@ public class Divider {
                     
                     i += getNumberLength(subDivident) - getNumberLength(divisionSteps.get(stepCount - 1).getRemainder());
                 } else {
+                    if (numOfLeadingZeros + i == dividentLength) {
+                        break;
+                    }
+                    
                     subDivident = Integer.parseInt(dividentAsString);
                     subDivident = pickDividentFromNumber(subDivident, divisor);
                     
@@ -66,10 +68,15 @@ public class Divider {
                 }   
             }
             
-            divisionSteps.add(populateDivisionStep(subDivident, divisor, numOfLeadingZeros));
+            divisionSteps.add(new DivisionStep(subDivident, divisor, numOfLeadingZeros));
         }
         
-        return new DivisionResult(divident, divisor, divisionSteps, isResultNegative);
+        for (DivisionStep step : divisionSteps) {
+            System.out.println(step);
+        }
+        
+        result.setDivisionSteps(divisionSteps);
+        return result;
     }
     
     private void validate(int divisor) {
@@ -110,23 +117,12 @@ public class Divider {
         String dividentAsString = Integer.toString(divident);
         int count = 0;
         
-        while (dividentAsString.charAt(pos) == '0' && pos < dividentAsString.length() - 1) {
+        while (pos < dividentAsString.length() && dividentAsString.charAt(pos) == '0') {
             count++;
             pos++;
         }
         
         return count;
-    }
-    
-    private DivisionStep populateDivisionStep(int divident, int divisor, int numOfLeadingZeros) {
-        DivisionStep step = new DivisionStep();
-        
-        step.setDivident(divident);
-        step.setResult(divident / divisor);
-        step.setSubtract(divisor * step.getResult());
-        step.setRemainder(divident % divisor);
-        step.setNumOfLeadingZeros(numOfLeadingZeros);
-        return step;
     }
     
 }
