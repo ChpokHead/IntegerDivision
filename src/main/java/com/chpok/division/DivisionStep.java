@@ -2,28 +2,54 @@ package com.chpok.division;
 
 public class DivisionStep {
     private int divident;
-    private int divisor;
+    private int subtract;
     private int result;
     private int remainder;
+    private int numOfLeadingZeros;
     
-    public DivisionStep(int divident, int divisor, int result, int reminder) {
+    public void setDivident(int divident) {
         this.divident = divident;
-        this.divisor = divisor;
+    }
+    
+    public void setSubtract(int subtract) {
+        this.subtract = subtract;
+    }
+    
+    public void setResult(int result) {
         this.result = result;
-        this.remainder = reminder;
+    }
+    
+    public void setRemainder(int remainder) {
+        this.remainder = remainder;
     }
     
     public int getDivident() {
         return divident;
     }
-    public int getDivisor() {
-        return divisor;
+    
+    public int getSubtract() {
+        return subtract;
     }
+    
     public int getResult() {
         return result;
     }
+    
     public int getRemainder() {
         return remainder;
     }   
+    
+    public int getNumOfLeadingZeros() {
+        return numOfLeadingZeros;
+    }
+
+    public void setNumOfLeadingZeros(int numOfLeadingZeros) {
+        this.numOfLeadingZeros = numOfLeadingZeros;
+    }
+    
+    @Override
+    public String toString() {
+        return getDivident() + " " + getSubtract() + " " + getRemainder() + " " + getResult(); 
+    }
     
 }
