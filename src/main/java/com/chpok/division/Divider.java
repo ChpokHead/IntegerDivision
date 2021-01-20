@@ -71,10 +71,6 @@ public class Divider {
             divisionSteps.add(new DivisionStep(subDivident, divisor, numOfLeadingZeros));
         }
         
-        for (DivisionStep step : divisionSteps) {
-            System.out.println(step);
-        }
-        
         result.setDivisionSteps(divisionSteps);
         return result;
     }

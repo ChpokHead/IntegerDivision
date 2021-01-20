@@ -28,12 +28,19 @@ public class Formattor {
     private void drawSecondLine(DivisionResult result) {
         List<DivisionStep> divisionSteps = result.getDivisionSteps();
         int dividentLength = getNumberLength(result.getDivident());
+        int subDividentLength = getNumberLength(divisionSteps.get(0).getDivident());
         int resultLength = getNumberLength(result.getResult());
         int subtractLength = getNumberLength(divisionSteps.get(0).getSubtract());
+
+        System.out.print(" ");
         
-        System.out.print(" " + divisionSteps.get(0).getSubtract());
+        for (int i = 0; i < subDividentLength - subtractLength; i++) {
+            System.out.print(" ");
+        }
         
-        for (int i = 0; i <  dividentLength - subtractLength; i++) {
+        System.out.print(divisionSteps.get(0).getSubtract());
+        
+        for (int i = 0; i <  dividentLength - subDividentLength; i++) {
             System.out.print(" ");
         }
         
@@ -47,15 +54,15 @@ public class Formattor {
     }
     
     private void drawThirdLine(DivisionResult result) {
-        int dividentLength = getNumberLength(result.getDivisionSteps().get(0).getDivident());
-        int subtract = result.getDivisionSteps().get(0).getSubtract();
+        int dividentLength = getNumberLength(result.getDivident());
+        int subDividentLength = getNumberLength(result.getDivisionSteps().get(0).getDivident());
         
         System.out.print(" ");
-        for(int i = 0; i < dividentLength; i++) {
+        for(int i = 0; i < subDividentLength; i++) {
             System.out.print("-");
         }
         
-        for (int i = getNumberLength(subtract); i < getNumberLength(result.getDivident()); i++) {
+        for (int i = 0; i < dividentLength - subDividentLength; i++) {
             System.out.print(" ");
         }
         
