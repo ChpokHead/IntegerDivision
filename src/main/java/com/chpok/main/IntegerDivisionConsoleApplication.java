@@ -1,15 +1,22 @@
 package com.chpok.main;
 
-import com.chpok.division.Divider;
-import com.chpok.formating.Formattor;
+import com.chpok.division.DivisionMathProvider;
+import com.chpok.division.DivisionMathProviderImpl;
+import com.chpok.formating.DivisionViewProvider;
+import com.chpok.formating.DivisionViewProviderImpl;
+import com.chpok.validation.ValidationPorviderImpl;
+import com.chpok.validation.ValidationProvider;
 
 public class IntegerDivisionConsoleApplication {
 
     public static void main(String[] args) {
-        Divider divider = new Divider();
-        Formattor formattor = new Formattor();
+        ValidationProvider validationProvider = new ValidationPorviderImpl();
+        DivisionViewProvider viewProvider = new DivisionViewProviderImpl();
+        DivisionMathProvider mathProvider = new DivisionMathProviderImpl();
         
-        formattor.makeDivisionView(divider.divide(-1000100, 12));
+        IntegerDivisionCalculator calculator = new IntegerDivisionCalculator(validationProvider, viewProvider, mathProvider);
+        
+        System.out.println(calculator.calculate(1432, 12));
     }
 
 }
