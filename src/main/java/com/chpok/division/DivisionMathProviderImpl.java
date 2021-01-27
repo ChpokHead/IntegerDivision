@@ -21,45 +21,31 @@ public class DivisionMathProviderImpl implements DivisionMathProvider {
     
         divisionSteps.add(new DivisionStep(subDivident, divisor, numOfLeadingZeros));
         
-        int i = getNumberLength(subDivident);
+        int subDivPos = getNumberLength(subDivident);
         
-        while (i < dividentLength) {
+        while (subDivPos < dividentLength) {
             stepCount++;
 
-            numOfLeadingZeros = getNumOfLeadingZeros(i, divident);
+            numOfLeadingZeros = getNumOfLeadingZeros(subDivPos, divident);
             
             if (numOfLeadingZeros > 0) {
-                
-                String dividentAsString = Integer.toString(divident).substring(i);
-
-                if (numOfLeadingZeros + i == dividentLength) {
+                if (numOfLeadingZeros + subDivPos == dividentLength) {
                     break;
                 }
                 
-                subDivident = Integer.parseInt(dividentAsString);
-                subDivident = pickDividentFromNumber(subDivident, divisor);
-                    
-                i += getNumberLength(subDivident) + numOfLeadingZeros;
-                
+                subDivident = getSubDivIfDivHasLeadingZeros(subDivPos, divident, divisor);
+                subDivPos += getNumberLength(subDivident) + numOfLeadingZeros;
             } else {
-                subDivident = trimNumberFromPos(i, divident);
-            
-                if (divisionSteps.get(stepCount - 1).getRemainder() != 0) {
-                    subDivident = joinDigits(divisionSteps.get(stepCount - 1).getRemainder(), subDivident);
-                    subDivident = pickDividentFromNumber(subDivident, divisor);
-                
-                    i += getNumberLength(subDivident) - getNumberLength(divisionSteps.get(stepCount - 1).getRemainder());
-                } else {
-                    subDivident = pickDividentFromNumber(subDivident, divisor);
-                
-                    i += getNumberLength(subDivident);
-                }   
+                subDivident = trimNumberFromPos(subDivPos, divident);
+                subDivident = getNewSubDivident(subDivident, stepCount, divisionSteps, divisor);    
+                subDivPos += updateSubDivPos(subDivident, stepCount, divisionSteps);
             }
             
             divisionSteps.add(new DivisionStep(subDivident, divisor, numOfLeadingZeros));
         }
         
         result.setDivisionSteps(divisionSteps);
+        
         return result;
     }
     
@@ -107,4 +93,31 @@ public class DivisionMathProviderImpl implements DivisionMathProvider {
         return count;
     }
     
+    private int getSubDivIfDivHasLeadingZeros(int subDivPos, int divident, int divisor) {
+        int subDivident = trimNumberFromPos(subDivPos, divident);
+        
+        return pickDividentFromNumber(subDivident, divisor);
+    }
+    
+    private boolean isLastRemainderWasZero(int stepCount, List<DivisionStep> divisionSteps) {
+        return divisionSteps.get(stepCount - 1).getRemainder() == 0;
+    }
+    
+    private int getNewSubDivident(int subDiv, int stepCount, List<DivisionStep> steps, int divisor) {
+        if (!isLastRemainderWasZero(stepCount, steps)) {
+            subDiv = joinDigits(steps.get(stepCount - 1).getRemainder(), subDiv);
+        }
+
+        return pickDividentFromNumber(subDiv, divisor);
+    }
+    
+    private int updateSubDivPos(int subDiv, int stepCount, List<DivisionStep> steps) {
+        if (!isLastRemainderWasZero(stepCount, steps)) {
+            return getNumberLength(subDiv) - getNumberLength(steps.get(stepCount - 1).getRemainder());
+        } else {
+            return getNumberLength(subDiv);
+        }
+    }
+    
 }
+
