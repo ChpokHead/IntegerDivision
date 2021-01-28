@@ -1,5 +1,5 @@
 package com.chpok.validation;
 
 public interface ValidationProvider {
-    void validate(int divisor);
+    void validate(int divident, int divisor);
 }

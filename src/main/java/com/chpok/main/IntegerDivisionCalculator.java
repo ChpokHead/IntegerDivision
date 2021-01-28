@@ -1,8 +1,8 @@
 package com.chpok.main;
 
-import com.chpok.division.DivisionMathProvider;
-import com.chpok.division.DivisionResult;
-import com.chpok.formating.DivisionViewProvider;
+import com.chpok.division.domain.DivisionResult;
+import com.chpok.division.formatter.DivisionViewProvider;
+import com.chpok.division.provider.DivisionMathProvider;
 import com.chpok.validation.ValidationProvider;
 
 public class IntegerDivisionCalculator {
@@ -18,7 +18,7 @@ public class IntegerDivisionCalculator {
     }
     
     public String calculate(int divident, int divisor) {
-        validationProvider.validate(divisor);
+        validationProvider.validate(divident, divisor);
         
         DivisionResult result = mathProvider.provideMathCalculation(divident, divisor);
         
