@@ -3,11 +3,23 @@ package com.chpok.division.domain;
 import java.util.Objects;
 
 public class DivisionStep {
-    private int divident;
-    private int subtract;
-    private int result;
-    private int remainder;
-    private int numOfLeadingZeros;
+    private final int divident;
+    private final int subtract;
+    private final int result;
+    private final int remainder;
+    private final int numOfLeadingZeros;
+    
+    private DivisionStep(Builder builder) {
+        divident = builder.divident;
+        subtract = builder.subtract;
+        result = builder.result;
+        remainder = builder.remainder;
+        numOfLeadingZeros = builder.numOfLeadingZeros;
+    }
+    
+    public static Builder builder() {
+        return new Builder();
+    }
     
     public int getDivident() {
         return divident;
@@ -56,39 +68,41 @@ public class DivisionStep {
     }
     
     public static class Builder {
-        private DivisionStep step;
+        private int divident;
+        private int subtract;
+        private int result;
+        private int remainder;
+        private int numOfLeadingZeros;
         
-        public Builder() {
-            step = new DivisionStep();
-        }
+        private Builder() {}
         
-        public Builder setDivident(int divident) {
-            step.divident = divident;
+        public Builder withDivident(int divident) {
+            this.divident = divident;
             return this;
         }
         
-        public Builder setSubtract(int divisor) {
-            step.subtract = divisor * step.result;        
+        public Builder withSubtract(int divisor) {
+            this.subtract = divisor * this.result;        
             return this;
         }
         
-        public Builder setResult(int divident, int divisor) {
-            step.result = divident / divisor;
+        public Builder withResult(int divident, int divisor) {
+            this.result = divident / divisor;
             return this;
         }
         
-        public Builder setRemainder(int divident, int divisor) {
-            step.remainder = divident % divisor;
+        public Builder withRemainder(int divident, int divisor) {
+            this.remainder = divident % divisor;
             return this;
         }
         
-        public Builder setNumOfLeadingZeros(int numOfLeadingZeros) {
-            step.numOfLeadingZeros = numOfLeadingZeros;
+        public Builder withNumOfLeadingZeros(int numOfLeadingZeros) {
+            this.numOfLeadingZeros = numOfLeadingZeros;
             return this;
         }
         
         public DivisionStep build() {
-            return step;
+            return new DivisionStep(this);
         }
     }
     

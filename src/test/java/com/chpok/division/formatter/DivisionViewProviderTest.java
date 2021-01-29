@@ -22,34 +22,34 @@ class DivisionViewProviderTest {
         final int divisor = 12;
         List<DivisionStep> steps = new ArrayList<DivisionStep>();
         
-        steps.add(new DivisionStep.Builder()
-                      .setDivident(14)
-                      .setRemainder(14, divisor)
-                      .setResult(14, divisor)
-                      .setSubtract(divisor)
-                      .setNumOfLeadingZeros(0)
-                      .build());
-        steps.add(new DivisionStep.Builder()
-                      .setDivident(23)
-                      .setRemainder(23, divisor)
-                      .setResult(23, divisor)
-                      .setSubtract(divisor)
-                      .setNumOfLeadingZeros(0)
-                      .build());
-        steps.add(new DivisionStep.Builder()
-                      .setDivident(112)
-                      .setRemainder(112, divisor)
-                      .setResult(112, divisor)
-                      .setSubtract(divisor)
-                      .setNumOfLeadingZeros(0)
-                      .build());
-        
-        final DivisionResult divisionResult = new DivisionResult.Builder()
-                                            .setDivident(divident)
-                                            .setDivisor(divisor)
-                                            .setResult(divident, divisor)
-                                            .setDivisionSteps(steps)
-                                            .build();
+        steps.add(DivisionStep.builder()
+                              .withDivident(14)
+                              .withRemainder(14, divisor)
+                              .withResult(14, divisor)
+                              .withSubtract(divisor)
+                              .withNumOfLeadingZeros(0)
+                              .build());
+        steps.add(DivisionStep.builder()
+                              .withDivident(23)
+                              .withRemainder(23, divisor)
+                              .withResult(23, divisor)
+                              .withSubtract(divisor)
+                              .withNumOfLeadingZeros(0)
+                              .build());
+        steps.add(DivisionStep.builder()
+                              .withDivident(112)
+                              .withRemainder(112, divisor)
+                              .withResult(112, divisor)
+                              .withSubtract(divisor)
+                              .withNumOfLeadingZeros(0)
+                              .build());
+  
+        final DivisionResult divisionResult = DivisionResult.builder()
+                                                .withDivident(divident)
+                                                .withDivisor(divisor)
+                                                .withResult(divident, divisor)
+                                                .withDivisionSteps(steps)
+                                                .build();
         final String actual = viewProvider.provideView(divisionResult);
         final String expected = "_1432|12\n 12  |---\n --  |119\n _23\n  12\n  --\n _112\n  108\n  ---\n    4";
         
@@ -62,20 +62,20 @@ class DivisionViewProviderTest {
         final int divisor = 3539;
         List<DivisionStep> steps = new ArrayList<DivisionStep>();
         
-        steps.add(new DivisionStep.Builder()
-                      .setDivident(15)
-                      .setRemainder(15, divisor)
-                      .setSubtract(divisor)
-                      .setResult(15, divisor)
-                      .setNumOfLeadingZeros(0)
-                      .build());
-        
-        final DivisionResult divisionResult = new DivisionResult.Builder()
-                                            .setDivident(divident)
-                                            .setDivisor(divisor)
-                                            .setResult(divident, divisor)
-                                            .setDivisionSteps(steps)
-                                            .build();
+        steps.add(DivisionStep.builder()
+                              .withDivident(15)
+                              .withRemainder(15, divisor)
+                              .withSubtract(divisor)
+                              .withResult(15, divisor)
+                              .withNumOfLeadingZeros(0)
+                              .build());
+
+        final DivisionResult divisionResult = DivisionResult.builder()
+                                                      .withDivident(divident)
+                                                      .withDivisor(divisor)
+                                                      .withResult(divident, divisor)
+                                                      .withDivisionSteps(steps)
+                                                      .build();
         final String actual = viewProvider.provideView(divisionResult);
         final String expected = "_15|3539\n  0|-\n --|0\n 15";
         
@@ -88,20 +88,20 @@ class DivisionViewProviderTest {
         final int divisor = 20;
         List<DivisionStep> steps = new ArrayList<DivisionStep>();
         
-        steps.add(new DivisionStep.Builder()
-                      .setDivident(0)
-                      .setRemainder(0, divisor)
-                      .setSubtract(divisor)
-                      .setResult(0, divisor)
-                      .setNumOfLeadingZeros(0)
-                      .build());
-        
-        final DivisionResult divisionResult = new DivisionResult.Builder()
-                                            .setDivident(divident)
-                                            .setDivisor(divisor)
-                                            .setResult(divident, divisor)
-                                            .setDivisionSteps(steps)
-                                            .build();
+        steps.add(DivisionStep.builder()
+                              .withDivident(0)
+                              .withRemainder(0, divisor)
+                              .withSubtract(divisor)
+                              .withResult(0, divisor)
+                              .withNumOfLeadingZeros(0)
+                              .build());
+
+        final DivisionResult divisionResult = DivisionResult.builder()
+                                                      .withDivident(divident)
+                                                      .withDivisor(divisor)
+                                                      .withResult(divident, divisor)
+                                                      .withDivisionSteps(steps)
+                                                      .build();
         final String actual = viewProvider.provideView(divisionResult);
         final String expected = "_0|20\n 0|-\n -|0\n 0";
         
@@ -114,27 +114,27 @@ class DivisionViewProviderTest {
         final int divisor = 45;
         List<DivisionStep> steps = new ArrayList<DivisionStep>();
         
-        steps.add(new DivisionStep.Builder()
-                      .setDivident(405)
-                      .setRemainder(405, divisor)
-                      .setResult(405, divisor)
-                      .setSubtract(divisor)
-                      .setNumOfLeadingZeros(0)
-                      .build());
-        steps.add(new DivisionStep.Builder()
-                      .setDivident(225)
-                      .setRemainder(225, divisor)
-                      .setResult(225, divisor)
-                      .setSubtract(divisor)
-                      .setNumOfLeadingZeros(1)
-                      .build());
-        
-        final DivisionResult divisionResult = new DivisionResult.Builder()
-                                            .setDivident(divident)
-                                            .setDivisor(divisor)
-                                            .setResult(divident, divisor)
-                                            .setDivisionSteps(steps)
-                                            .build();
+        steps.add(DivisionStep.builder()
+                              .withDivident(405)
+                              .withRemainder(405, divisor)
+                              .withResult(405, divisor)
+                              .withSubtract(divisor)
+                              .withNumOfLeadingZeros(0)
+                              .build());
+        steps.add(DivisionStep.builder()
+                              .withDivident(225)
+                              .withRemainder(225, divisor)
+                              .withResult(225, divisor)
+                              .withSubtract(divisor)
+                              .withNumOfLeadingZeros(1)
+                              .build());
+
+        final DivisionResult divisionResult = DivisionResult.builder()
+                                                      .withDivident(divident)
+                                                      .withDivisor(divisor)
+                                                      .withResult(divident, divisor)
+                                                      .withDivisionSteps(steps)
+                                                      .build();
         final String actual = viewProvider.provideView(divisionResult);
         final String expected = "_405022500|45\n 405      |-------\n ---      |9000500\n   _0225\n     225\n    ----\n       0";
         

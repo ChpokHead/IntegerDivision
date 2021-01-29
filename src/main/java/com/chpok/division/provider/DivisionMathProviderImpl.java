@@ -14,22 +14,22 @@ public class DivisionMathProviderImpl implements DivisionMathProvider {
         int stepCount = 0;
         int numOfLeadingZeros = 0;
         List<DivisionStep> divisionSteps = new ArrayList<>();
-        DivisionResult result = new DivisionResult.Builder()
-                                    .setDivident(divident)
-                                    .setDivisor(divisor)
-                                    .setResult(divident, divisor)
-                                    .setDivisionSteps(divisionSteps)
-                                    .build();
+        DivisionResult result = DivisionResult.builder()
+                                        .withDivident(divident)
+                                        .withDivisor(divisor)
+                                        .withResult(divident, divisor)
+                                        .withDivisionSteps(divisionSteps)
+                                        .build();
         
         int subDivident = pickDividentFromNumber(divident, divisor);
         int dividentLength = getNumberLength(divident);
     
-        divisionSteps.add(new DivisionStep.Builder()
-                              .setDivident(subDivident)
-                              .setResult(subDivident, divisor)
-                              .setSubtract(divisor)
-                              .setRemainder(subDivident, divisor)
-                              .setNumOfLeadingZeros(numOfLeadingZeros)
+        divisionSteps.add(DivisionStep.builder()
+                              .withDivident(subDivident)
+                              .withResult(subDivident, divisor)
+                              .withSubtract(divisor)
+                              .withRemainder(subDivident, divisor)
+                              .withNumOfLeadingZeros(numOfLeadingZeros)
                               .build());
         
         int subDivPos = getNumberLength(subDivident);
@@ -52,13 +52,13 @@ public class DivisionMathProviderImpl implements DivisionMathProvider {
                 subDivPos += updateSubDivPos(subDivident, stepCount, divisionSteps);
             }
             
-            divisionSteps.add(new DivisionStep.Builder()
-                                  .setDivident(subDivident)
-                                  .setResult(subDivident, divisor)
-                                  .setSubtract(divisor)
-                                  .setRemainder(subDivident, divisor)
-                                  .setNumOfLeadingZeros(numOfLeadingZeros)
-                                  .build());
+            divisionSteps.add(DivisionStep.builder()
+                              .withDivident(subDivident)
+                              .withResult(subDivident, divisor)
+                              .withSubtract(divisor)
+                              .withRemainder(subDivident, divisor)
+                              .withNumOfLeadingZeros(numOfLeadingZeros)
+                              .build());
         }
                 
         return result;

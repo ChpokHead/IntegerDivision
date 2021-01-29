@@ -4,10 +4,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class DivisionResult {
-    private int divident;
-    private int divisor;
-    private int result;
-    private List<DivisionStep> divisionSteps;
+    private final int divident;
+    private final int divisor;
+    private final int result;
+    private final List<DivisionStep> divisionSteps;
+    
+    private DivisionResult(Builder builder) {
+        divident = builder.divident;
+        divisor = builder.divisor;
+        result = builder.result;
+        divisionSteps = builder.divisionSteps;
+    }
+    
+    public static Builder builder() {
+        return new Builder();
+    }
 
     public int getDivident() {
         return divident;
@@ -46,34 +57,35 @@ public class DivisionResult {
     } 
     
     public static class Builder {
-        private DivisionResult divRes;
+        private int divident;
+        private int divisor;
+        private int result;
+        private List<DivisionStep> divisionSteps;
         
-        public Builder() {
-            divRes = new DivisionResult();
-        }
+        private Builder() {}
         
-        public Builder setDivident(int divident) {
-            divRes.divident = divident;
+        public Builder withDivident(int divident) {
+            this.divident = divident;
             return this;
         }
         
-        public Builder setDivisor(int divisor) {
-            divRes.divisor = divisor;
+        public Builder withDivisor(int divisor) {
+            this.divisor = divisor;
             return this;
         }
         
-        public Builder setResult(int divident, int divisor) {
-            divRes.result = divident / divisor;
+        public Builder withResult(int divident, int divisor) {
+            this.result = divident / divisor;
             return this;
         }
         
-        public Builder setDivisionSteps(List <DivisionStep> steps) {
-            divRes.divisionSteps = steps;
+        public Builder withDivisionSteps(List <DivisionStep> steps) {
+            this.divisionSteps = steps;
             return this;
         }
         
         public DivisionResult build() {
-            return divRes;
+            return new DivisionResult(this);
         }
     }
 
