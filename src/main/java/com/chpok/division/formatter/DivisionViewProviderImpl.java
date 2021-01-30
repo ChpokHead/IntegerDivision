@@ -10,13 +10,9 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
     private static final String UNDERSCORE = "_";
     private static final String PIPE = "|";
     private static final String DASH = "-";
-    
-    private int indents[];
-    
+        
     @Override
     public String provideView(DivisionResult divisionResult) {     
-        indents = new int[divisionResult.getDivisionSteps().size() + 1];
-        
         return drawHeader(divisionResult) + drawRestLines(divisionResult); 
     }
     
@@ -78,32 +74,32 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
         List<DivisionStep> divisionSteps = divisionResult.getDivisionSteps();
         StringBuilder result = new StringBuilder();
         
-        countIndents(divisionSteps);
+        int[] indents = countIndents(divisionSteps);
         
         for (int i = 1; i < divisionSteps.size(); i++) {
-            result.append(drawStep(i, divisionSteps.get(i)));
+            result.append(drawStep(indents[i], divisionSteps.get(i)));
         }
         
-        result.append(drawRemainder(divisionResult));
+        result.append(drawRemainder(indents[divisionSteps.size()], divisionResult));
         
         return result.toString();
     }
     
-    private String drawRemainder(DivisionResult divisionResult) {
+    private String drawRemainder(int indent, DivisionResult divisionResult) {
         List<DivisionStep> divisionSteps = divisionResult.getDivisionSteps();
         DivisionStep lastStep = divisionSteps.get(divisionSteps.size() - 1);
                 
-        return drawIndents(indents[divisionSteps.size()] + getNumberLength(lastStep.getDivident()) 
+        return drawIndents(indent + getNumberLength(lastStep.getDivident()) 
                 - getNumberLength(lastStep.getRemainder())) + " " + lastStep.getRemainder();
     }
     
-    private String drawStep(int stepPos, DivisionStep currentStep) {
+    private String drawStep(int indent, DivisionStep currentStep) {
         if (currentStep.getSubtract() == 0) {
             return "";
         }
                  
-        return drawDivident(stepPos, currentStep) + drawSubtract(stepPos, currentStep) 
-                + drawDashes(stepPos, currentStep);
+        return drawDivident(indent, currentStep) + drawSubtract(indent, currentStep) 
+                + drawDashes(indent, currentStep);
     }
     
     private String drawIndents(int indentsCount) {
@@ -127,31 +123,29 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
         return result.toString();
     }
     
-    private String drawDivident(int stepPos, DivisionStep step) {
-        return drawIndents(indents[stepPos]) + UNDERSCORE + drawLeadingZeros(step.getNumOfLeadingZeros()) 
+    private String drawDivident(int indent, DivisionStep step) {
+        return drawIndents(indent) + UNDERSCORE + drawLeadingZeros(step.getNumOfLeadingZeros()) 
                 + step.getDivident() + "\n";
     }
     
-    private String drawSubtract(int stepPos, DivisionStep step) {
+    private String drawSubtract(int indent, DivisionStep step) {
         StringBuilder result = new StringBuilder();
         
-        result.append(drawIndents(indents[stepPos]));
+        result.append(drawIndents(indent));
         
         result.append(drawIndents(step.getNumOfLeadingZeros()));
-        
-        int indent = getNumberLength(step.getDivident()) - getNumberLength(step.getSubtract());
-        
-        result.append(drawIndents(indent));
+                
+        result.append(drawIndents(getNumberLength(step.getDivident()) - getNumberLength(step.getSubtract())));
 
         result.append(" " + step.getSubtract() + "\n");
         
         return result.toString();
     }
     
-    private String drawDashes(int stepPos, DivisionStep step) {
+    private String drawDashes(int indent, DivisionStep step) {
         StringBuilder result = new StringBuilder();
         
-        result.append(drawIndents(indents[stepPos]) + " ");
+        result.append(drawIndents(indent) + " ");
         
         for (int i = 0; i < getNumberLength(step.getDivident()) + step.getNumOfLeadingZeros(); i++) {
             result.append(DASH);
@@ -176,7 +170,8 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
         return Integer.toString(number).length();
     }
     
-    private void countIndents(List<DivisionStep> steps) {
+    private int[] countIndents(List<DivisionStep> steps) {
+        int[] indents = new int[steps.size() + 1];
         for (int i = 1; i < steps.size(); i++) {    
             if (steps.get(i - 1).getRemainder() != 0) {
                 indents[i] = indents[i - 1] + getNumberLength(steps.get(i - 1).getDivident()) 
@@ -187,6 +182,8 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
             
             indents[i + 1] = indents[i] + steps.get(i).getNumOfLeadingZeros();
         }
+        
+        return indents;
     }
     
 }
