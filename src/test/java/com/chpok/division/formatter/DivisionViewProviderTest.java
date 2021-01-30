@@ -13,7 +13,6 @@ import com.chpok.division.domain.DivisionResult;
 import com.chpok.division.domain.DivisionStep;
 
 class DivisionViewProviderTest {
-
     private final DivisionViewProviderImpl viewProvider = new DivisionViewProviderImpl();
     
     @Test
@@ -36,6 +35,7 @@ class DivisionViewProviderTest {
                               .withSubtract(divisor)
                               .withNumOfLeadingZeros(0)
                               .build());
+        
         steps.add(DivisionStep.builder()
                               .withDivident(112)
                               .withRemainder(112, divisor)
@@ -43,15 +43,49 @@ class DivisionViewProviderTest {
                               .withSubtract(divisor)
                               .withNumOfLeadingZeros(0)
                               .build());
-  
+ 
         final DivisionResult divisionResult = DivisionResult.builder()
-                                                .withDivident(divident)
-                                                .withDivisor(divisor)
-                                                .withResult(divident, divisor)
-                                                .withDivisionSteps(steps)
-                                                .build();
+                                                           .withDivident(divident)
+                                                           .withDivisor(divisor)
+                                                           .withResult(divident, divisor)
+                                                           .withDivisionSteps(steps)
+                                                           .build();
         final String actual = viewProvider.provideView(divisionResult);
         final String expected = "_1432|12\n 12  |---\n --  |119\n _23\n  12\n  --\n _112\n  108\n  ---\n    4";
+        
+        assertThat(actual, is(equalTo(expected)));
+    }
+    
+    @Test
+    void provideViewShouldReturnCorrectViewIfDividentIsMoreThanDivisorAndStepHasZeroRemainder() {
+        final int divident = 1432;
+        final int divisor = 14;
+        List<DivisionStep> steps = new ArrayList<DivisionStep>();
+        
+        steps.add(DivisionStep.builder()
+                              .withDivident(14)
+                              .withRemainder(14, divisor)
+                              .withResult(14, divisor)
+                              .withSubtract(divisor)
+                              .withNumOfLeadingZeros(0)
+                              .build());
+        steps.add(DivisionStep.builder()
+                              .withDivident(32)
+                              .withRemainder(32, divisor)
+                              .withResult(32, divisor)
+                              .withSubtract(divisor)
+                              .withNumOfLeadingZeros(0)
+                              .build());
+  
+        final DivisionResult divisionResult = DivisionResult.builder()
+                                                            .withDivident(divident)
+                                                            .withDivisor(divisor)
+                                                            .withResult(divident, divisor)
+                                                            .withDivisionSteps(steps)
+                                                            .build();
+        final String actual = viewProvider.provideView(divisionResult);
+        final String expected = "_1432|14\n 14  |---\n --  |102\n  _32\n   28\n   --\n    4";
+        
         
         assertThat(actual, is(equalTo(expected)));
     }
@@ -71,11 +105,11 @@ class DivisionViewProviderTest {
                               .build());
 
         final DivisionResult divisionResult = DivisionResult.builder()
-                                                      .withDivident(divident)
-                                                      .withDivisor(divisor)
-                                                      .withResult(divident, divisor)
-                                                      .withDivisionSteps(steps)
-                                                      .build();
+                                                            .withDivident(divident)
+                                                            .withDivisor(divisor)
+                                                            .withResult(divident, divisor)
+                                                            .withDivisionSteps(steps)
+                                                            .build();
         final String actual = viewProvider.provideView(divisionResult);
         final String expected = "_15|3539\n  0|-\n --|0\n 15";
         
@@ -97,11 +131,11 @@ class DivisionViewProviderTest {
                               .build());
 
         final DivisionResult divisionResult = DivisionResult.builder()
-                                                      .withDivident(divident)
-                                                      .withDivisor(divisor)
-                                                      .withResult(divident, divisor)
-                                                      .withDivisionSteps(steps)
-                                                      .build();
+                                                            .withDivident(divident)
+                                                            .withDivisor(divisor)
+                                                            .withResult(divident, divisor)
+                                                            .withDivisionSteps(steps)
+                                                            .build();
         final String actual = viewProvider.provideView(divisionResult);
         final String expected = "_0|20\n 0|-\n -|0\n 0";
         
@@ -130,11 +164,11 @@ class DivisionViewProviderTest {
                               .build());
 
         final DivisionResult divisionResult = DivisionResult.builder()
-                                                      .withDivident(divident)
-                                                      .withDivisor(divisor)
-                                                      .withResult(divident, divisor)
-                                                      .withDivisionSteps(steps)
-                                                      .build();
+                                                            .withDivident(divident)
+                                                            .withDivisor(divisor)
+                                                            .withResult(divident, divisor)
+                                                            .withDivisionSteps(steps)
+                                                            .build();
         final String actual = viewProvider.provideView(divisionResult);
         final String expected = "_405022500|45\n 405      |-------\n ---      |9000500\n   _0225\n     225\n    ----\n       0";
         

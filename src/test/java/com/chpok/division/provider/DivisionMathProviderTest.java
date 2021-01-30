@@ -12,12 +12,11 @@ import org.junit.jupiter.api.Test;
 import com.chpok.division.domain.DivisionResult;
 import com.chpok.division.domain.DivisionStep;
 
-class DivisionMathProviderTest {
-    
+class DivisionMathProviderTest {  
     private final DivisionMathProviderImpl divider = new DivisionMathProviderImpl();
     
     @Test
-    void divideShouldReturnCorrectDivisionResultIfDividentIsMoreThanDivisor() {
+    void provideViewShouldReturnCorrectViewIfDividentIsMoreThanDivisor() {
         final int divident = 1432;
         final int divisor = 12;
         List<DivisionStep> steps = new ArrayList<DivisionStep>();
@@ -36,10 +35,42 @@ class DivisionMathProviderTest {
                               .withSubtract(divisor)
                               .withNumOfLeadingZeros(0)
                               .build());
+        
         steps.add(DivisionStep.builder()
                               .withDivident(112)
                               .withRemainder(112, divisor)
                               .withResult(112, divisor)
+                              .withSubtract(divisor)
+                              .withNumOfLeadingZeros(0)
+                              .build());
+ 
+        final DivisionResult actual = divider.provideMathCalculation(divident, divisor);
+        final DivisionResult expected = DivisionResult.builder()
+                                                           .withDivident(divident)
+                                                           .withDivisor(divisor)
+                                                           .withResult(divident, divisor)
+                                                           .withDivisionSteps(steps)
+                                                           .build();        
+        assertThat(actual, is(equalTo(expected)));
+    }
+    
+    @Test
+    void divideShouldReturnCorrectDivisionResultIfDividentIsMoreThanDivisorAndStepHasZeroRemainder() {
+        final int divident = 1432;
+        final int divisor = 14;
+        List<DivisionStep> steps = new ArrayList<DivisionStep>();
+        
+        steps.add(DivisionStep.builder()
+                              .withDivident(14)
+                              .withRemainder(14, divisor)
+                              .withResult(14, divisor)
+                              .withSubtract(divisor)
+                              .withNumOfLeadingZeros(0)
+                              .build());
+        steps.add(DivisionStep.builder()
+                              .withDivident(32)
+                              .withRemainder(32, divisor)
+                              .withResult(32, divisor)
                               .withSubtract(divisor)
                               .withNumOfLeadingZeros(0)
                               .build());

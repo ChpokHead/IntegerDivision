@@ -29,7 +29,6 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
         List<DivisionStep> divisionSteps = divisionResult.getDivisionSteps();
         int dividentLength = getNumberLength(divisionResult.getDivident());
         int subDividentLength = getNumberLength(divisionSteps.get(0).getDivident());
-        int resultLength = getNumberLength(divisionResult.getResult());
         int subtractLength = getNumberLength(divisionSteps.get(0).getSubtract());
         StringBuilder result = new StringBuilder(" ");
                 
@@ -41,12 +40,7 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
         
         result.append(PIPE);
         
-        result.append(drawSymbolNumberTimes(DASH, resultLength));
-        
-        
-        if (divisionResult.getResult() < 0) {
-            result.append(DASH);
-        }
+        result.append(drawSymbolNumberTimes(DASH, getNumberLength(divisionResult.getResult())));
         
         result.append("\n");
         
@@ -91,10 +85,6 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
     }
     
     private String drawStep(int indent, DivisionStep currentStep) {
-        if (currentStep.getSubtract() == 0) {
-            return "";
-        }
-                 
         return drawDivident(indent, currentStep) + drawSubtract(indent, currentStep) 
                 + drawDashes(indent, currentStep);
     }
