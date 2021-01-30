@@ -56,8 +56,8 @@
                 <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>com/chpok/division/DivisionResult.class</exclude>
-                        <exclude>com/chpok/division/DivisionStep.class</exclude>
+                        <exclude>com/chpok/division/domain/DivisionResult.class</exclude>
+                        <exclude>com/chpok/division/domain/DivisionStep.class</exclude>
                         <exclude>com/chpok/main/*</exclude>
                     </excludes>
                 </configuration>
