@@ -21,8 +21,8 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
     }
     
     private String drawFirstLine(DivisionResult divisionResult) {
-        return UNDERSCORE + makeNumberPositive(divisionResult.getDivident()) + PIPE 
-                + makeNumberPositive(divisionResult.getDivisor()) + "\n";
+        return UNDERSCORE + divisionResult.getDivident() + PIPE 
+                + divisionResult.getDivisor() + "\n";
     }
     
     private String drawSecondLine(DivisionResult divisionResult) {
@@ -33,19 +33,18 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
         int subtractLength = getNumberLength(divisionSteps.get(0).getSubtract());
         StringBuilder result = new StringBuilder(" ");
                 
-        result.append(drawIndents(subDividentLength - subtractLength));
+        result.append(drawSymbolNumberTimes(' ', subDividentLength - subtractLength));
         
         result.append(divisionSteps.get(0).getSubtract());
         
-        result.append(drawIndents(dividentLength - subDividentLength));
+        result.append(drawSymbolNumberTimes(' ', dividentLength - subDividentLength));
         
         result.append(PIPE);
         
-        for (int i = 0; i < resultLength; i++) {
-            result.append(DASH);
-        }
+        result.append(drawSymbolNumberTimes(DASH, resultLength));
         
-        if(divisionResult.getResult() < 0) {
+        
+        if (divisionResult.getResult() < 0) {
             result.append(DASH);
         }
         
@@ -58,12 +57,10 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
         int dividentLength = getNumberLength(divisionResult.getDivident());
         int subDividentLength = getNumberLength(divisionResult.getDivisionSteps().get(0).getDivident());
         StringBuilder result = new StringBuilder(" ");
+
+        result.append(drawSymbolNumberTimes(DASH, subDividentLength));
         
-        for(int i = 0; i < subDividentLength; i++) {
-            result.append(DASH);
-        }
-        
-        result.append(drawIndents(dividentLength - subDividentLength));
+        result.append(drawSymbolNumberTimes(' ', dividentLength - subDividentLength));
         
         result.append(PIPE + divisionResult.getResult() + "\n");
         
@@ -89,7 +86,7 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
         List<DivisionStep> divisionSteps = divisionResult.getDivisionSteps();
         DivisionStep lastStep = divisionSteps.get(divisionSteps.size() - 1);
                 
-        return drawIndents(indent + getNumberLength(lastStep.getDivident()) 
+        return drawSymbolNumberTimes(' ', indent + getNumberLength(lastStep.getDivident()) 
                 - getNumberLength(lastStep.getRemainder())) + " " + lastStep.getRemainder();
     }
     
@@ -102,40 +99,45 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
                 + drawDashes(indent, currentStep);
     }
     
-    private String drawIndents(int indentsCount) {
+    private String drawSymbolNumberTimes(char sym, int num) {
         StringBuilder result = new StringBuilder();
         
-        while (indentsCount != 0) {
-            result.append(" ");
-            indentsCount--;
+        while (num != 0) {
+            result.append(sym);
+            num--;
+        }
+        
+        return result.toString();
+    }
+    
+    private String drawSymbolNumberTimes(String sym, int num) {
+        StringBuilder result = new StringBuilder();
+        
+        while (num != 0) {
+            result.append(sym);
+            num--;
         }
         
         return result.toString();
     }
         
     private String drawLeadingZeros(int numOfZeros) {
-        StringBuilder result = new StringBuilder();
-        
-        for (int i = 0; i < numOfZeros; i++) {
-            result.append(0);
-        }
-        
-        return result.toString();
+        return drawSymbolNumberTimes(Integer.toString(0), numOfZeros);
     }
     
     private String drawDivident(int indent, DivisionStep step) {
-        return drawIndents(indent) + UNDERSCORE + drawLeadingZeros(step.getNumOfLeadingZeros()) 
+        return drawSymbolNumberTimes(' ', indent) + UNDERSCORE + drawLeadingZeros(step.getNumOfLeadingZeros()) 
                 + step.getDivident() + "\n";
     }
     
     private String drawSubtract(int indent, DivisionStep step) {
         StringBuilder result = new StringBuilder();
         
-        result.append(drawIndents(indent));
+        result.append(drawSymbolNumberTimes(' ', indent));
         
-        result.append(drawIndents(step.getNumOfLeadingZeros()));
+        result.append(drawSymbolNumberTimes(' ', step.getNumOfLeadingZeros()));
                 
-        result.append(drawIndents(getNumberLength(step.getDivident()) - getNumberLength(step.getSubtract())));
+        result.append(drawSymbolNumberTimes(' ', getNumberLength(step.getDivident()) - getNumberLength(step.getSubtract())));
 
         result.append(" " + step.getSubtract() + "\n");
         
@@ -145,28 +147,16 @@ public class DivisionViewProviderImpl implements DivisionViewProvider{
     private String drawDashes(int indent, DivisionStep step) {
         StringBuilder result = new StringBuilder();
         
-        result.append(drawIndents(indent) + " ");
+        result.append(drawSymbolNumberTimes(' ', indent) + " ");
         
-        for (int i = 0; i < getNumberLength(step.getDivident()) + step.getNumOfLeadingZeros(); i++) {
-            result.append(DASH);
-        }
-
+        result.append(drawSymbolNumberTimes(DASH, getNumberLength(step.getDivident()) + step.getNumOfLeadingZeros()));
+        
         result.append("\n");
         
         return result.toString();
     }
     
-    private int makeNumberPositive(int number) {
-        if (number < 0) {
-            number = -number;
-        }
-        
-        return number;
-    }
-    
-    private int getNumberLength(int number) {
-        number = makeNumberPositive(number);
-        
+    private int getNumberLength(int number) {        
         return Integer.toString(number).length();
     }
     
